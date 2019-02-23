@@ -5,7 +5,7 @@
 # Site
 title: Cheng6774_blog
 subtitle:
-description:
+description: This is Cheng's blog
 keywords:
 author: Cheng6774
 language: zh-Hans
@@ -78,8 +78,6 @@ theme: next
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
-
-duoshuo:
-  enable: true
-  shortname: your-duoshuo-shortname
+  type: git
+  repo: git@github.com:Cheng6774/blog.git
+  branch: gh-pages
