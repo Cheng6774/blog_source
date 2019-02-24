@@ -8,7 +8,7 @@ subtitle:
 description: This is Cheng's blog
 keywords:
 author: Cheng6774
-language: zh-Hans
+language: zh-CN
 timezone:
 
 # URL
@@ -79,5 +79,5 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:Cheng6774/blog.git
-  branch: gh-pages
+  repo: https://github.com/Cheng6774/Cheng6774.github.io.git
+  branch: master
