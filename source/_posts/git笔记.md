@@ -6,9 +6,10 @@ tags: 编程
 
 # README
 
-学习 git 相关材料和笔记
+学习 git 相关材料和笔记  
+[git 教程](https://backlog.com/git-tutorial/cn/)  
 
-[git 教程](https://backlog.com/git-tutorial/cn/)
+<!-- more -->
 
 # 基本命令
 ```
