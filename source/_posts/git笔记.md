@@ -1,7 +1,7 @@
 ---
 title: git笔记
 date: 2019-02-23 23:03:04
-tags: 编程
+tags: [学习笔记, 编程]
 ---
 
 # README
