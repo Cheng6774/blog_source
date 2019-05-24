@@ -112,3 +112,32 @@ type用于创建交通流（traffic composition），class用于车道限制某�
 1、点击左侧stop signal
 2、在路段要设置停车让行的地方单击鼠标右键对该车道设置停车信号
 3、一次只能对一个车道进行设置
+
+# dynamic assignment 动态交通分配
+在D:\Program Files (x86)\PTV_Uni\VISSIM510\Examples\Training\DynamicAssignment\3Paths
+路径下有一个3path文件，文件里的路网运行三个不同的路径流量
+先点击节点按钮，在编辑——edge selection中可以查看每一条路径的节点
+交通——动态交通分配中配置各种输入和成本
+1、画出有三个分叉最后汇合的路网
+2、在主路两个端点设置停车场，注意将停车场选择为zone connecter
+3、点击左侧节点按钮，然后多次单击鼠标右键画一个框将路网上的节点包围
+4、在工程文件同一目录下创建动态交通文件格式后缀为fma，内容如下：
+```
+* Timeintervall
+  0.00  1.00
+* Factor
+  1
+* Number of zones %两个停车场
+  2
+* Zone numbers %两个停车场编号
+  1  2
+* Values %OD矩阵，P1点到P2点
+  0  500
+  0  0
+```
+5、在动态交通对话框中，勾选matrix，点击new选择刚创建的fma文件
+6、选择成本文件(bew和weg后缀文件)，没有的话新建
+7、点击4次仿真按钮进行4次仿真
+8、可以查看bew文件和weg文件的仿真结果
+
+# 如何使用冲突区域
