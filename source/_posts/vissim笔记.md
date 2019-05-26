@@ -261,3 +261,81 @@ course班次里面设置first第一个编号和step步长
 2、选择比例，调出比例尺然后在导入文件上画出一段距离，并定义这段线的实际距离
 3、点击保存按钮后退出，就按照设定比例导入背景图
 
+# dectector和VAP编程
+需要在路上设置感应器，然后在信号灯编辑里面选VAP编程
+VAP编程需要相应的配置文件和代码库
+
+# VAP编程之配置PUA文档文件
+VAP编程信号控制需要编写PUA文件设置信号规则
+PUA文件中需要声明所有信号灯组和所有相位、起始相位
+
+VAP编程例子
+背景介绍：在一个十字交叉口，一个方向是铁路火车行驶，一个是汽车行驶
+平时汽车行驶方向为绿灯，火车行驶方向为红灯
+在火车行驶的路径上设置两个检测器，检测器1在交叉口前，检测器2在交叉口后
+利用VAP编程，设置当火车经过检测器1时火车方向绿灯放行，经过检测器2时火车方向红灯，汽车切换回绿灯放行
+
+1、打开信号控制——信号控制机
+2、新建信号控制机和信号灯组，type模式里面选VAP，周期模式选变量，新建各信号灯组并将最小红绿灯时间设置为1s
+【在这里，signal group中火车和汽车分别建立一个信号灯组，汽车为1火车为2，最小红绿灯时间1s
+controller VAP中 program file选择D:\Program Files (x86)\PTV_Uni\VISSIM520\Exe中的vap216.dll
+interstage file选择工程文件目录下自己创建的.PUA文件
+Logic file选择工程文件目录下自己创建的.VAP文件】
+
+3、D:\Program Files (x86)\PTV_Uni\VISSIM520\Examples\Training\Railroad\RailCrossing.VAP为模板文件
+4、复制该目录下后缀名为PUA的文本文件，文件内容如下
+```
+$SIGNAL_GROUPS
+$        %以"$"为关键字，后面开始进行定义，介于两个$之间的为注释
+Car      1 %汽车和铁路分别为一个信号灯组，
+Train    2
+
+$STAGES  %定义了两个相位
+$
+Stage_1          Car %控制汽车为绿灯，铁路为红灯
+red		 Train
+Stage_2          Train
+red              Car
+
+$STARTING_STAGE   %初始相位
+$
+Stage_1
+
+$INTERSTAGE1   %第一次切换相位
+Length [s]             : 5
+From Stage             : 1
+To Stage               : 2
+$
+Car  -127 0
+Train   5  127
+
+$INTERSTAGE2   %第二次切换相位
+Length [s]             : 2
+From Stage             : 2
+To Stage               : 1
+$
+Car  2 127
+Train  -127 0
+
+$END
+```
+5、在交叉口设置两个检测器，当火车经过某点时绿灯放行，当火车经过交叉口继续行驶到某点切换回红灯
+6、对上述信号灯切换规则进行写程序进行配置，内容写在后缀名为VAP的文件中
+```
+PROGRAM myprj;
+if not init then  %init初始值为0
+   set_sig(1,red);   %火车行驶方向为红灯
+   set_sig(2,green); %汽车行驶为绿灯
+   init:=1  %将inti值赋值为1
+end;
+if Stage_active(1) then %如果为相位1（火车红灯汽车绿灯）
+   if Call(1) then   %如果检测器1检测到信号（火车驶过交叉口前的检测器）
+      Interstage(1,2)   %相位1切换为相位2
+      end
+end;
+if Stage_active(2) then %如果为相位2（火车绿灯汽车红灯）
+   if Call(2) then   %如果检测器2检测到信号（火车驶过交叉口后的检测器）
+      Interstage(2,1)   %相位2切换为相位1
+      end
+end.
+```
